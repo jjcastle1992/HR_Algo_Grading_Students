@@ -9,6 +9,7 @@ string rtrim(const string &);
 #define MULTIPLE 5
 #define MINGRADE 0
 #define MAXGRADE 100
+#define MAXPOINTGAP 2
 
 /*
  * Rounds up grades to the closest greater multiple of 5 IF the grade is no more than 2 points away
@@ -22,7 +23,6 @@ vector<int> gradingStudents(vector<int> grades) {
         int currentGrade = 0;
         int roundedGrade = 0;
         int nearestRoundUp = 0;
-
         currentGrade = grades[i];
 
         // If the grade is less than 37 OR 100, do not process, but add to roundedGrades [i]
@@ -33,7 +33,18 @@ vector<int> gradingStudents(vector<int> grades) {
         // next multiple of 5 - grade[i] < 3 (i.e. 38 -> 40; 40 - 38 = 2; 2 < 3; so round 38 to 40)
         // Add to roundedGrades[i].
         else if (currentGrade > FAIL && currentGrade < MAXGRADE) {
+            int remainder = 0;
             nearestRoundUp = ((MULTIPLE - (currentGrade % MULTIPLE)) + currentGrade);
+            remainder = nearestRoundUp - currentGrade;
+
+            // If the difference between the next multiple of 5 and the current grade is 2 or less
+            // round up the grade. If the gap is 3 or greater, put the grade in the gradebook as is. 
+            if (remainder <= MAXPOINTGAP ) {
+                roundedGrades.push_back(nearestRoundUp);
+            }
+            else {
+                roundedGrades.push_back(currentGrade);
+            }
         }
         else {
             cout << "Error: grade " << currentGrade << " outside expected range" << endl;
