@@ -5,6 +5,8 @@ using namespace std;
 string ltrim(const string &);
 string rtrim(const string &);
 
+#define MIN_GRADEBOOK_SIZE 1
+#define MAX_GRADEBOOK_SIZE 60
 #define FAIL 37
 #define MULTIPLE 5
 #define MINGRADE 0
@@ -38,7 +40,7 @@ vector<int> gradingStudents(vector<int> grades) {
             remainder = nearestRoundUp - currentGrade;
 
             // If the difference between the next multiple of 5 and the current grade is 2 or less
-            // round up the grade. If the gap is 3 or greater, put the grade in the gradebook as is. 
+            // round up the grade. If the gap is 3 or greater, put the grade in the gradebook as is.
             if (remainder <= MAXPOINTGAP ) {
                 roundedGrades.push_back(nearestRoundUp);
             }
@@ -62,29 +64,31 @@ int main()
     getline(cin, grades_count_temp);
 
     int grades_count = stoi(ltrim(rtrim(grades_count_temp)));
+    if (grades_count >= MIN_GRADEBOOK_SIZE && grades_count <= MAX_GRADEBOOK_SIZE) {
+        vector<int> grades(grades_count);
 
-    vector<int> grades(grades_count);
+        for (int i = 0; i < grades_count; i++) {
+            string grades_item_temp;
+            getline(cin, grades_item_temp);
 
-    for (int i = 0; i < grades_count; i++) {
-        string grades_item_temp;
-        getline(cin, grades_item_temp);
-
-        int grades_item = stoi(ltrim(rtrim(grades_item_temp)));
-
-        grades[i] = grades_item;
-    }
-
-    vector<int> result = gradingStudents(grades);
-
-    for (size_t i = 0; i < result.size(); i++) {
-        fout << result[i];
-
-        if (i != result.size() - 1) {
-            fout << "\n";
+            int grades_item = stoi(ltrim(rtrim(grades_item_temp)));
+            if (grades_item >= MINGRADE && grades_item <= MAXGRADE) {
+                grades[i] = grades_item;
+            }
         }
-    }
 
-    fout << "\n";
+        vector<int> result = gradingStudents(grades);
+
+        for (size_t i = 0; i < result.size(); i++) {
+            fout << result[i];
+
+            if (i != result.size() - 1) {
+                fout << "\n";
+            }
+        }
+
+        fout << "\n";
+    }
 
     fout.close();
 
