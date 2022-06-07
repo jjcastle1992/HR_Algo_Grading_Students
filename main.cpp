@@ -5,23 +5,41 @@ using namespace std;
 string ltrim(const string &);
 string rtrim(const string &);
 
+#define FAIL 37
+#define MULTIPLE 5
+#define MINGRADE 0
+#define MAXGRADE 100
+
 /*
- * Complete the 'gradingStudents' function below.
- *
- * The function is expected to return an INTEGER_ARRAY.
- * The function accepts INTEGER_ARRAY grades as parameter.
+ * Rounds up grades to the closest greater multiple of 5 IF the grade is no more than 2 points away
  */
 
 vector<int> gradingStudents(vector<int> grades) {
     vector <int> roundedGrades;
 
     //Count Controlled loop reviewing each grade in the passed array
+    for (int i = 0; i < grades.size(); i++) {
+        int currentGrade = 0;
+        int roundedGrade = 0;
+        int nearestRoundUp = 0;
 
-        //If the grade is less than 38, do not process, but add to roundedGrades [i]
+        currentGrade = grades[i];
 
-        //If the grade is >= 38 then check to see if next multiple of five - grade[i] < 3 (i.e. 38 -> 40 -38 = 2 < 3)
+        // If the grade is less than 37 OR 100, do not process, but add to roundedGrades [i]
+        if (currentGrade <= FAIL || currentGrade == MAXGRADE) {
+            roundedGrades.push_back(currentGrade);
+        }
+        // If the grade is >= 38 AND less than 100, check to see if
+        // next multiple of 5 - grade[i] < 3 (i.e. 38 -> 40; 40 - 38 = 2; 2 < 3; so round 38 to 40)
         // Add to roundedGrades[i].
-        
+        else if (currentGrade > FAIL && currentGrade < MAXGRADE) {
+            nearestRoundUp = ((MULTIPLE - (currentGrade % MULTIPLE)) + currentGrade);
+        }
+        else {
+            cout << "Error: grade " << currentGrade << " outside expected range" << endl;
+        }
+    }
+
     return roundedGrades;
 }
 
