@@ -13,7 +13,16 @@ string rtrim(const string &);
  */
 
 vector<int> gradingStudents(vector<int> grades) {
+    vector <int> roundedGrades;
 
+    //Count Controlled loop reviewing each grade in the passed array
+
+        //If the grade is less than 38, do not process, but add to roundedGrades [i]
+
+        //If the grade is >= 38 then check to see if next multiple of five - grade[i] < 3 (i.e. 38 -> 40 -38 = 2 < 3)
+        // Add to roundedGrades[i].
+        
+    return roundedGrades;
 }
 
 int main()
